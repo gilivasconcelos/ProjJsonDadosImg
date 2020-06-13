@@ -1,0 +1,262 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title>Document</title>
+	
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Create two unequal columns that floats next to each other */
+    .column {
+        float: left;
+        padding: 10px;
+        height: 250px; /* Should be removed. Only for demonstration */
+    }
+
+    .left {
+        width: 30%;
+    }
+
+    .right {
+        width: 70%;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+</style>
+
+</head>
+<body>
+
+
+<div class="text-center">
+    <h1 class="display-4">Lista de Itens</h1>
+    <p><a>-Retornar imagem da url: https://random.dog/woof.json; </a></p>
+    <p><a>-Exibir/Trocar/Excluir a Imagem</a>.</p>
+    <p><a>-Exibir/Alterar a Descrição</a>.</p>
+
+</div>
+
+<br>
+<div class="row">
+    <div class="column left" style="background-color:#aaa;">
+
+        <p><input type="button" class="btn btn-info" name="showImg" id="btnShowImg" onclick="funcMostrarImg()" value="Exibir imagem" /></p>
+        <p><input type="button" class="btn btn-info" name="alterImg" id="btnTrocarImg" hidden onclick="funcTrocarImg()" value="Trocar imagem" /></p>
+
+        <button type="button" class="btn btn-secondary" hidden id="btnAltDescr" onclick="funcBtnAltDescr()">Alterar Descrição</button>
+        <button type="button" class="btn btn-warning" hidden id="btnExcluirImg" data-dismiss="modal" onclick="funcExcluirImg()">Excluír imagem</button>
+
+
+        <button type="button" class="btn btn-primary" hidden id="btnSalvar" onclick="funcBtnSalvarDescr()">Salvar</button>
+        <button type="button" class="btn btn-danger" hidden id="btnCancelar" data-dismiss="modal" onclick="funcBtnCancelarDescr()">Cancelar</button>
+
+
+    </div>
+    <div class="column right" style="background-color:#bbb;">
+
+        <div class="form-group">
+            <label id="lblDescr" for="txtDescr" hidden>Descrição:</label>
+            <br>
+            <div style="display:inline-block; position:relative;">
+                <textarea class="form-control" hidden id="txtDescrOne" rows="7" cols="70"></textarea>
+            </div>
+
+            <div style="display:inline-block; position:relative;">
+
+                <textarea class="form-control" hidden id="txtDescrTwo" rows="7" cols="70" disabled></textarea>
+                <div style="position:absolute; left:0; right:0; top:0; bottom:0;"></div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+<br>
+<div class="col-sm-4">
+
+    <div id='imgDog'></div>
+</div>
+	
+</body>
+
+
+
+
+<script>
+
+    var descricao;
+
+    function funcBtnAltDescr() {
+
+        document.getElementById('txtDescrOne').hidden = false;
+        document.getElementById('txtDescrTwo').hidden = true;
+        document.getElementById('txtDescrOne').value = document.getElementById('txtDescrTwo').value;
+
+        document.getElementById('btnSalvar').hidden = false;
+        document.getElementById('btnCancelar').hidden = false;
+
+        document.getElementById('btnAltDescr').desabled = false;
+
+        document.getElementById('btnAltDescr').hidden = true;
+        document.getElementById('btnExcluirImg').hidden = true;
+
+    }
+
+    function funcBtnSalvarDescr() {
+
+        document.getElementById('txtDescrTwo').value = document.getElementById('txtDescrOne').value;
+        document.getElementById('txtDescrOne').hidden = true;
+        document.getElementById('txtDescrTwo').hidden = false;
+
+        document.getElementById('btnAltDescr').hidden = false;
+        document.getElementById('btnExcluirImg').hidden = false;
+
+        document.getElementById('btnSalvar').hidden = true;
+        document.getElementById('btnCancelar').hidden = true;
+
+    }
+
+    function funcBtnCancelarDescr() {
+
+        document.getElementById('txtDescrOne').hidden = true;
+        document.getElementById('txtDescrTwo').hidden = false;
+
+        document.getElementById('btnAltDescr').hidden = false;
+        document.getElementById('btnExcluirImg').hidden = false;
+
+
+        document.getElementById('btnSalvar').hidden = true;
+        document.getElementById('btnCancelar').hidden = true;
+
+
+
+    }
+
+
+
+
+    function funcMostrarImg() {
+
+
+        document.getElementById('txtDescrTwo').hidden = false;
+
+        document.getElementById('lblDescr').hidden = false;
+
+        document.getElementById('btnAltDescr').hidden = false;
+        document.getElementById('btnExcluirImg').hidden = false;
+
+        document.getElementById('btnShowImg').hidden = true;
+
+        document.getElementById('btnTrocarImg').hidden = false;
+        document.getElementById('btnTrocarImg').desabled = false;
+
+        document.getElementById('btnSalvar').hidden = true;
+        document.getElementById('btnCancelar').hidden = true;
+
+        buscaImagem();
+
+    }
+
+    
+var avisado = 0;
+function funcTrocarImg() {
+
+    
+    if (avisado == 0) { 
+      var r = confirm("Se você trocar a imagem, a descrição também mudará . Deseja continuar?");
+        if (r == true) {
+           
+           avisado = 1;
+         }
+     }
+    buscaImagem();
+}
+
+    function funcExcluirImg() {
+        location.reload();
+
+    }
+
+
+    function buscaImagem() {
+
+        var auxOxhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+
+        function statusOfReport() {
+            if (auxOxhr.readyState == 4)               // Request completado.
+                buscaJson(this.responseText);     // após setado, mostra o retorno.
+        }
+        auxOxhr.onreadystatechange = statusOfReport;
+        auxOxhr.open("GET", "https://random.dog/woof.json", true);   // Se false requeste sincrono, Se true requeste assincrono.
+
+        auxOxhr.send();
+
+        function buscaJson(auxJson) {
+            var auxArr = [];
+            auxArr = JSON.parse(auxJson); 	// preenche o array com o json obtido.
+
+            var div = document.getElementById('imgDog');     // <div> padrão fixa da imagem
+            div.innerHTML = '';
+
+            // Cria dois elementos <div> um para url e outro para imagem
+            var divLeft = document.createElement('div');
+            divLeft.innerHTML = auxArr.url;
+
+
+
+
+            var img = document.createElement('img');    // Cria o elemento <img>.
+            img.src = auxArr.url;                // Url da imagem.
+            descricao = "Dados da Imagem:" + "\n" + "FileSizeBytes: " + auxArr.fileSizeBytes + "\n" + "Url: " + auxArr.url;
+            document.getElementById('txtDescrTwo').value = descricao;
+
+            var divRight = document.createElement('div');
+            divRight.setAttribute('style', 'border-left: solid 1px #ddd;');
+            divRight.appendChild(img);
+
+            // adiciona div dentro da div pai.
+            div.appendChild(divLeft);
+            div.appendChild(divRight);
+
+           //Se a extensão for .mp4 ou .webm busca novamente
+            var auxA = auxArr.url;
+            var auxB = auxArr.url;
+            auxA = auxA.search(".mp4");
+            auxB = auxB.search(".webm");
+            
+            if (auxA >= 1) {
+                buscaImagem();
+            }
+            if (auxB >= 1) {
+                buscaImagem();
+            }
+
+
+
+
+        }
+    }
+</script>
+
+
+
+
+</html>
+
+
+
