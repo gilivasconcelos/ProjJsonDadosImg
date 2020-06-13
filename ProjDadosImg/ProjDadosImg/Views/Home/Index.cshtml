@@ -1,0 +1,122 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<script src="~/Scripts/validacoes.js"></script>
+<script src="~/Scripts/dadosImg.js"></script>
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    /* Create two unequal columns that floats next to each other */
+    .column {
+        float: left;
+        padding: 10px;
+        height: 250px; /* Should be removed. Only for demonstration */
+    }
+
+    .left {
+        width: 30%;
+    }
+
+    .right {
+        width: 70%;
+    }
+
+    /* Clear floats after the columns */
+    .row:after {
+        content: "";
+        display: table;
+        clear: both;
+    }
+</style>
+
+
+
+
+<div class="container">
+
+
+    <div class="row">
+        <div class="col-sm-4">
+            <h3>Lista de itens solicitados</h3>
+            <div>
+                <p>
+                    <br>
+                    -Retornar imagem da url: https://random.dog/woof.json;
+                    <br>
+                    -Exibir/Trocar/Excluir a Imagem.
+                    <br>
+                    -Exibir/Alterar a Descrição.
+                </p>
+
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <h3>Atenção:</h3>
+            <p>-Você só pode salvar os dados da imagem  após fazer uma busca. O botão "Salvar no Crud" será habilitado. </p>
+
+
+
+        </div>
+
+        <div class="col-sm-4">
+            <h3>Nesta página você pode</h3>
+            <p>
+                -Buscar ou Trocar imagens aleatórias;
+                <br>
+                -Existe um filtro para retornos com extensões .mp4 e .webm devido a incompatibilidade de visualização, se nada for exibido aguarde que uma nova busca ocorrerá sozinha.
+            </p>
+
+
+        </div>
+
+    </div>
+</div>
+        <br>
+        <div class="row">
+            <div class="column left" style="background-color:#aaa;">
+
+                <button type="button" class="btn-info" id="btnShowImg" onclick="funcMostrarImg()">Exibir imagem</button>
+                <br>
+                <br>
+                <button type="button" class="btn-success" id="btnTrocarImg" onclick="funcTrocarImg()" hidden>Trocar imagem </button>
+                <br>
+                <br>
+                <button type="button" class="btn-warning" id="btnExcluirImg" onclick="funcExcluirImg()" hidden>Excluír imagem</button>
+                <br>
+                <br>
+                <button type="button" class="btn-primary" id="btnSalvar" onclick="salvarNoCrud()" hidden>Salvar no CRUD</button>
+
+            </div>
+            <div class="column right" style="background-color:#bbb;">
+
+                <div class="form-group">
+                    <label id="lblDescr" for="txtDescr">Descrição:</label>
+                    <br>
+                    <div style="display:inline-block; position:relative;">
+
+                        <textarea class="form-control" id="Descricao" rows="7" cols="70" disabled></textarea>
+                        <div style="position:absolute; left:0; right:0; top:0; bottom:0;"></div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+
+
+        <br>
+        <div class="col-sm-4">
+
+            <div id='imgDog'></div>
+        </div>
+        <br>
+        <br>

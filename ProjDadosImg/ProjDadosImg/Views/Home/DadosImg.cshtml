@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "DadosImg";
+}
+
+<h1>Crud DadosImgDogs</h1>
+
+
+<h3>Lista de dados das Imagens </h3>
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/dadosImg.js"></script>
+
+
+
+<div class="container" style="margin-top:3%">
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>FileSizeBytes</th>
+                <th>Url</th>
+                <th>Descrição</th>
+                <th>Ação</th>
+
+            </tr>
+        </thead>
+        <tbody id="tbody" class="tbody"></tbody>
+    </table>
+</div>
+
+
+@*Modal Editar*@
+
+<div class="modal fade" id="modalEditar">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+                <h4 id="ModalTitle"> EDITAR </h4>
+            </div>
+            <div class="modal-body">
+                <form id="form">
+                    <fieldset id="SubmitForm">
+
+                        <div class="form-group">
+                            <label>Id</label> <br>
+                            <input style="text-align:center" size="4" id="IdDadosImgEditar" disabled />
+                        </div>
+
+                        <div class="form-group">
+                            <label>FileSizeBytes</label> <br>
+                            <input aling="center" id="FileSizeBytesEditar" placeholder="FileSizeBytes" required="required" size="10" disabled />
+                        </div>
+                        <div class="form-group">
+                            <label>Url</label> <br>
+                            <input aling="center" id="UrlEditar" placeholder="Url" required="required" size="60" disabled />
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Descrição</label>
+                                <br>
+                              <textarea class="form-control" id="DescricaoEditar" rows="7" cols="90"></textarea>
+                            </div>
+                            <div class="form-group">
+
+                                <button type="submit" class="btn btn-block btn-danger" onclick="return atualizarDadosImg();">Atualizar Dados</button>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
